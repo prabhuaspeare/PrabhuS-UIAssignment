@@ -1,0 +1,19 @@
+[
+    {
+      "customerId": "C001",
+      "name": "John Doe",
+      "transactions": [
+        { "date": "2024-06-01", "amount": 120 },
+        { "date": "2024-06-15", "amount": 75 },
+        { "date": "2024-07-03", "amount": 200 }
+      ]
+    },
+    {
+      "customerId": "C002",
+      "name": "Jane Smith",
+      "transactions": [
+        { "date": "2024-06-10", "amount": 50 },
+        { "date": "2024-07-25", "amount": 150 }
+      ]
+    }
+]
