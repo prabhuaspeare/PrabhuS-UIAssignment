@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTransactions } from './api';
-import { getCustomerRewards } from './rewardCalculator';
- 
+import { fetchTransactions } from './services/api';
+import { getCustomerRewards } from './utils/rewardCalculator';
+
 function App() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
