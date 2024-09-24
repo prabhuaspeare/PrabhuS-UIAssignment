@@ -11,7 +11,7 @@ test('maps transactions to rewards correctly', () => {
     { date: '2024-06-01', amount: 120 },
     { date: '2024-06-15', amount: 75 },
   ];
- 
+
   const rewards = getCustomerRewards(transactions);
  
   expect(rewards).toEqual([

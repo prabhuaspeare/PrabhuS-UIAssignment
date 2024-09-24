@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { fetchTransactions } from './services/api';
 import { getCustomerRewards } from './utils/rewardCalculator';
  
@@ -22,8 +22,15 @@ function App() {
     loadData();
   }, []);
  
+  const customerRewardsData = useMemo(() => {
+    return customers.map(customer => ({
+      name: customer.name,
+      rewards: getCustomerRewards(customer.transactions)
+    }));
+  }, [customers]);
+ 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div data-testid="loading">Loading...</div>;
   }
  
   if (error) {
@@ -32,7 +39,7 @@ function App() {
  
   return (
     <div>
-      <h1>Customer Rewards</h1>
+      <h1 data-testid="customer-rewards-title">Customer Rewards</h1>
       <table>
         <thead>
           <tr>
@@ -43,14 +50,13 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {customers.map((customer) =>
-            getCustomerRewards(customer.transactions).map((transaction, index) => (
-              <tr key={index}>
-                <td>{customer.name}</td>
-                <td>{transaction.date}</td>
-                <td>${transaction.amount}</td>
-                <td>{transaction.points}</td>
-              </tr>
+          {customerRewardsData.map((customer, customerIndex) =>
+            customer.rewards.map((transaction, index) => (
+              <CustomerRow
+                key={`${customerIndex}-${index}`}
+                name={customer.name}
+                transaction={transaction}
+              />
             ))
           )}
         </tbody>
@@ -58,5 +64,14 @@ function App() {
     </div>
   );
 }
-
+ 
+const CustomerRow = React.memo(({ name, transaction }) => (
+  <tr>
+    <td>{name}</td>
+    <td>{transaction.date}</td>
+    <td>${transaction.amount}</td>
+    <td>{transaction.points}</td>
+  </tr>
+));
+ 
 export default App;

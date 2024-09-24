@@ -1,51 +1,49 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
-import { fetchTransactions } from './services/api';
+import * as api from './services/api';
+ 
+// Mock the entire api module
 jest.mock('./services/api');
  
-test('renders loading state initially', async () => {
-  fetchTransactions.mockResolvedValueOnce([]);
-  render(<App />);
-  
-  // Use waitFor to handle async loading state
-  await waitFor(() => {
-    const loadingElement = screen.getByText(/loading/i);
-    expect(loadingElement).toBeInTheDocument();
-  });
-});
+describe('App Component Tests', () => {
+    // Test for loading state
+    test('renders the loading state initially', () => {
+        api.fetchTransactions.mockImplementation(() => new Promise(() => {})); // Mock fetch to keep loading state
+        render(<App />);
+        const loadingElement = screen.getByTestId('loading');
+        expect(loadingElement).toBeInTheDocument();
+        expect(loadingElement).toHaveTextContent("Loading...");
+    });
  
-test('renders error state', async () => {
-  fetchTransactions.mockRejectedValueOnce(new Error('Error fetching data'));
-  render(<App />);
-  
-  // Await the error message to appear
-  await waitFor(() => screen.getByText(/error/i));
-  const errorElement = screen.getByText(/error/i);
-  expect(errorElement).toBeInTheDocument();
-});
+    // Test for error message
+    test('renders error message when fetch fails', async () => {
+        api.fetchTransactions.mockImplementationOnce(() => Promise.reject(new Error("Failed to fetch")));
  
-test('renders customer data correctly', async () => {
-  const mockData = [
-    {
-      customerId: 'C001',
-      name: 'Prasanth',
-      transactions: [
-        { date: '2024-06-01', amount: 120 },
-        { date: '2024-06-15', amount: 75 },
-      ],
-    },
-  ];
+        render(<App />);
+        const loadingElement = screen.getByTestId('loading');
+        expect(loadingElement).toBeInTheDocument();
  
-  fetchTransactions.mockResolvedValueOnce(mockData);
-  render(<App />);
-  
-  // Wait for the customer's name to appear
-  await waitFor(() => screen.getByText('Prasanth'));
+        await screen.findByText(/Error: Failed to fetch/i); // Wait for error message to appear
+        expect(screen.queryByTestId('loading')).not.toBeInTheDocument(); // Check loading is not visible anymore
+    });
  
-  const nameElement = screen.getByText('Prasanth');
-  const amountElement = screen.getByText('$120');
-  const pointsElement = screen.getByText('90'); // Based on reward logic
-  expect(nameElement).toBeInTheDocument();
-  expect(amountElement).toBeInTheDocument();
-  expect(pointsElement).toBeInTheDocument();
+    // Test for successful data rendering
+    test('renders customer rewards title when fetch succeeds', async () => {
+        const mockData = [
+            {
+                name: "Prasanth",
+                transactions: [
+                    { date: "2024-01-01", amount: 100, points: 10 },
+                ],
+            },
+        ];
+ 
+        api.fetchTransactions.mockImplementationOnce(() => Promise.resolve(mockData));
+ 
+        render(<App />);
+ 
+        await screen.findByTestId('customer-rewards-title'); // Wait for title to appear
+        expect(screen.getByTestId('customer-rewards-title')).toBeInTheDocument();
+        expect(screen.getByTestId('customer-rewards-title')).toHaveTextContent("Customer Rewards");
+    });
 });

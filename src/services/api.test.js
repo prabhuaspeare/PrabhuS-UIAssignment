@@ -9,7 +9,7 @@ jest.mock('../transactions.json', () => [
     transactions: [{ date: '2024-06-01', amount: 120 }],
   },
 ]);
- 
+
 test('fetches transaction data successfully', async () => {
   const result = await fetchTransactions();
   expect(result).toEqual([

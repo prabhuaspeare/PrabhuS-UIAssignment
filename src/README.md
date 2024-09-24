@@ -1,12 +1,25 @@
-# Retailer Rewards Program
+# App Component
  
-## Installation
-1. Clone the repository
-2. Run `npm install`
-3. Run `npm start` to start the development server
+## Overview
+The `App` component is the main entry point for the application. It fetches data, displays a table of transactions and rewards, and handles loading/error states.
  
-## Component Structure
-- `App.js`: Main component to display customer transactions and reward points.
-- `rewardCalculator.js`: Contains logic for calculating reward points.
-- `api.js`: Simulates an asynchronous API call to fetch transaction data.
-- `transactions.json`: Sample transaction data for customers.
+## Usage
+1. Import the component:
+   ```jsx
+   import App from './components/App';
+   ```
+2. Render the component:
+   ```jsx
+   <App />
+   ```
+ 
+## State
+- `customers`: Array containing customer transaction data.
+- `loading`: Boolean to indicate if data is being fetched.
+- `error`: Holds any errors that occur during the fetch.
+ 
+## Dependencies
+- React (useState, useEffect, useMemo)
+ 
+## Error Handling
+Errors are caught and displayed using the `error` state.
