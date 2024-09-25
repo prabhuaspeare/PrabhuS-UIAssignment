@@ -1,19 +1,26 @@
 [
-    {
-      "customerId": "C001",
-      "name": "Prasanth",
-      "transactions": [
-        { "date": "2024-06-01", "amount": 120 },
-        { "date": "2024-06-15", "amount": 75 },
-        { "date": "2024-07-03", "amount": 200 }
-      ]
-    },
-    {
-      "customerId": "C002",
-      "name": "Aniruth",
-      "transactions": [
-        { "date": "2024-06-10", "amount": 50 },
-        { "date": "2024-07-25", "amount": 150 }
-      ]
-    }
+  {
+    "customerId": "C001",
+    "name": "Prasanth",
+    "transactions": [
+      { "date": "2024-06-01", "amount": 120 },
+      { "date": "2024-06-15", "amount": 75 },
+      { "date": "2024-07-03", "amount": 200 },
+      { "date": "2024-07-20", "amount": 50 },
+      { "date": "2024-08-01", "amount": 180 },
+      { "date": "2024-08-15", "amount": 90 }
+    ]
+  },
+  {
+    "customerId": "C002",
+    "name": "Aniruth",
+    "transactions": [
+      { "date": "2024-06-10", "amount": 50 },
+      { "date": "2024-06-20", "amount": 130 },
+      { "date": "2024-07-25", "amount": 150 },
+      { "date": "2024-07-30", "amount": 70 },
+      { "date": "2024-08-10", "amount": 120 },
+      { "date": "2024-08-22", "amount": 85 }
+    ]
+  }
 ]

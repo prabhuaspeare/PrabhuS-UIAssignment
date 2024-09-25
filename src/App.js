@@ -4,15 +4,17 @@ import { getCustomerRewards } from './utils/rewardCalculator';
  
 function App() {
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
  
   useEffect(() => {
     async function loadData() {
       try {
+        setLoading(true);
         const data = await fetchTransactions();
         setCustomers(data);
       } catch (err) {
+        // setLoading(false);
         setError(err.message);
       } finally {
         setLoading(false);
